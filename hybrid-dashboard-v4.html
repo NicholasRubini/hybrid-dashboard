@@ -1,0 +1,2908 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="format-detection" content="telephone=no">
+  <title>Hybrid Warrior Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+    
+    :root {
+      --gold: #D4AF37;
+      --gold-light: #F4D03F;
+      --gold-dark: #B8962E;
+      --bg-dark: #0a0a0a;
+      --bg-card: rgba(30, 30, 30, 0.9);
+      --text-primary: #e8e8e8;
+      --text-secondary: rgba(255, 255, 255, 0.5);
+      --green: #4ade80;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --orange: #fb923c;
+      --purple: #a78bfa;
+    }
+    
+    html {
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    body {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+      color: var(--text-primary);
+      font-family: 'Rajdhani', sans-serif;
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 20px));
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.02) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    /* Header */
+    .header {
+      padding: 14px 16px;
+      padding-top: calc(14px + env(safe-area-inset-top, 0px));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      color: var(--gold);
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+    }
+    
+    .logo-text {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: rgba(212, 175, 55, 0.25);
+    }
+    
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    /* Pages Container */
+    .pages-container {
+      position: relative;
+    }
+    
+    .page {
+      display: none;
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Welcome */
+    .welcome-section {
+      margin-bottom: 16px;
+    }
+    
+    .welcome-greeting {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+    
+    .welcome-name {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .welcome-date {
+      font-size: 12px;
+      color: rgba(212, 175, 55, 0.7);
+      margin-top: 2px;
+    }
+    
+    /* Hero Score Card */
+    .hero-score-card {
+      background: linear-gradient(145deg, rgba(40, 35, 20, 0.9), rgba(20, 18, 10, 0.95));
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .hero-score-card:active {
+      transform: scale(0.98);
+    }
+    
+    .hero-score-ring {
+      position: relative;
+      flex-shrink: 0;
+    }
+    
+    .hero-score-ring svg {
+      transform: rotate(-90deg);
+    }
+    
+    .hero-score-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .hero-score-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+      line-height: 1;
+    }
+    
+    .hero-score-label {
+      font-size: 9px;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .hero-score-details {
+      flex: 1;
+    }
+    
+    .hero-score-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      color: var(--gold);
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    
+    .hero-score-stats {
+      display: flex;
+      gap: 14px;
+    }
+    
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .hero-stat-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    .hero-stat-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .quick-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 6px;
+      min-height: 70px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .quick-action-btn:active {
+      background: rgba(212, 175, 55, 0.2);
+      transform: scale(0.95);
+    }
+    
+    .quick-action-icon {
+      font-size: 22px;
+    }
+    
+    .quick-action-label {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      line-height: 1.2;
+    }
+    
+    /* Section Header */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      margin-top: 6px;
+    }
+    
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .section-action {
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 8px;
+      margin: -8px;
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .stat-card {
+      background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 70px;
+    }
+    
+    .stat-card:active {
+      transform: scale(0.98);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+    
+    .stat-icon {
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 10px;
+    }
+    
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+    
+    .stat-title {
+      font-size: 10px;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .stat-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+    
+    .stat-unit {
+      font-size: 11px;
+      color: rgba(212, 175, 55, 0.7);
+      font-weight: 500;
+    }
+    
+    /* Panel */
+    .panel {
+      background: linear-gradient(145deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .panel-action {
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 8px;
+      margin: -8px;
+    }
+    
+    /* Goals List */
+    .goals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .goal-item {
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .goal-item:active {
+      background: rgba(212, 175, 55, 0.1);
+    }
+    
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .goal-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .goal-type-icon {
+      font-size: 14px;
+    }
+    
+    .goal-values {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    
+    .goal-values span {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    
+    .goal-bar {
+      height: 6px;
+      background: rgba(212, 175, 55, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .goal-progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 3px;
+      transition: width 0.5s;
+    }
+    
+    .goal-progress.running {
+      background: linear-gradient(90deg, var(--green), #22c55e);
+    }
+    
+    /* Radar Section */
+    .radar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .radar-chart-container {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+    
+    .radar-chart {
+      width: 200px;
+      height: 200px;
+    }
+    
+    /* Attributes List */
+    .attributes-explained {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .attribute-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+    
+    .attribute-icon {
+      font-size: 20px;
+      width: 36px;
+      text-align: center;
+    }
+    
+    .attribute-info {
+      flex: 1;
+    }
+    
+    .attribute-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    
+    .attribute-desc {
+      font-size: 10px;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+    
+    .attribute-score {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      min-width: 36px;
+      text-align: right;
+    }
+    
+    /* Percentile Badge */
+    .percentile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .percentile-badge.top10 { background: rgba(212, 175, 55, 0.25); color: var(--gold); }
+    .percentile-badge.top25 { background: rgba(74, 222, 128, 0.2); color: var(--green); }
+    .percentile-badge.top50 { background: rgba(96, 165, 250, 0.2); color: var(--blue); }
+    .percentile-badge.bottom50 { background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); }
+    
+    /* Comparator Section */
+    .comparator-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .comparator-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+    
+    .comparator-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212, 175, 55, 0.1);
+      border-radius: 10px;
+    }
+    
+    .comparator-info {
+      flex: 1;
+    }
+    
+    .comparator-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+    
+    .comparator-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .comparator-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      margin-top: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .comparator-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s;
+    }
+    
+    .comparator-marker {
+      position: absolute;
+      top: -3px;
+      width: 3px;
+      height: 12px;
+      background: #fff;
+      border-radius: 2px;
+      transform: translateX(-50%);
+    }
+    
+    /* Share Button */
+    .share-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+    
+    .share-btn:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+    
+    .share-btn-icon {
+      font-size: 18px;
+    }
+    
+    /* Training Page */
+    .training-category {
+      margin-bottom: 20px;
+    }
+    
+    .training-category-title {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .exercise-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .exercise-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-height: 56px;
+    }
+    
+    .exercise-card:active {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: var(--gold);
+    }
+    
+    .exercise-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .exercise-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    
+    .exercise-value span {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    /* Calculator Card */
+    .calculator-card {
+      background: linear-gradient(145deg, rgba(167, 139, 250, 0.15), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .calculator-card:active {
+      transform: scale(0.98);
+    }
+    
+    .calculator-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    
+    .calculator-icon {
+      font-size: 28px;
+    }
+    
+    .calculator-title {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      color: var(--purple);
+      font-weight: 600;
+    }
+    
+    .calculator-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    
+    /* Recovery Questionnaire */
+    .recovery-intro {
+      text-align: center;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .recovery-score-big {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }
+    
+    .recovery-score-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+    
+    .recovery-status {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    
+    .recovery-status.excellent { background: rgba(74, 222, 128, 0.2); color: var(--green); }
+    .recovery-status.good { background: rgba(96, 165, 250, 0.2); color: var(--blue); }
+    .recovery-status.moderate { background: rgba(251, 146, 60, 0.2); color: var(--orange); }
+    .recovery-status.poor { background: rgba(248, 113, 113, 0.2); color: var(--red); }
+    
+    .questionnaire {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .question-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    
+    .question-icon {
+      font-size: 22px;
+    }
+    
+    .question-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      flex: 1;
+    }
+    
+    .rating-buttons {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .rating-btn {
+      flex: 1;
+      padding: 12px 4px;
+      min-height: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .rating-btn:active {
+      transform: scale(0.95);
+    }
+    
+    .rating-btn.selected {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    
+    .rating-btn.green.selected { background: rgba(74, 222, 128, 0.2); border-color: var(--green); color: var(--green); }
+    .rating-btn.orange.selected { background: rgba(251, 146, 60, 0.2); border-color: var(--orange); color: var(--orange); }
+    .rating-btn.red.selected { background: rgba(248, 113, 113, 0.2); border-color: var(--red); color: var(--red); }
+    
+    .sleep-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .sleep-input {
+      flex: 1;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      width: 100px;
+      outline: none;
+    }
+    
+    .sleep-input:focus {
+      border-color: var(--gold);
+    }
+    
+    .sleep-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(12, 12, 12, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+      z-index: 1000;
+    }
+    
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 8px 14px;
+      min-width: 64px;
+      min-height: 50px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .bottom-nav-icon {
+      font-size: 22px;
+      opacity: 0.4;
+      transition: all 0.2s;
+    }
+    
+    .bottom-nav-label {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      transition: all 0.2s;
+      font-family: 'Rajdhani', sans-serif;
+    }
+    
+    .bottom-nav-item.active .bottom-nav-icon {
+      opacity: 1;
+    }
+    
+    .bottom-nav-item.active .bottom-nav-label {
+      color: var(--gold);
+      font-weight: 600;
+    }
+    
+    .bottom-nav-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal-content {
+      background: linear-gradient(145deg, #1e1e1e, #141414);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 24px 24px 0 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      position: sticky;
+      top: 0;
+      background: inherit;
+      z-index: 10;
+    }
+    
+    .modal-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    
+    .modal-close {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-close:active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal-body {
+      padding: 20px;
+    }
+    
+    /* Form Elements */
+    .input-field {
+      margin-bottom: 16px;
+    }
+    
+    .input-field label {
+      display: block;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .input-field input,
+    .input-field select {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    
+    .input-field input:focus,
+    .input-field select:focus {
+      border-color: var(--gold);
+    }
+    
+    .input-field select {
+      appearance: none;
+      cursor: pointer;
+    }
+    
+    .input-field select option {
+      background: #1a1a1a;
+    }
+    
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .input-hint {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 16px;
+      border-radius: 10px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      min-height: 52px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+    }
+    
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+    
+    .btn-danger {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+    
+    /* Calculator Result */
+    .calc-result {
+      text-align: center;
+      padding: 24px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
+      margin-top: 20px;
+    }
+    
+    .calc-result-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    
+    .calc-result-value {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--gold);
+      font-family: 'Cinzel', serif;
+    }
+    
+    .calc-result-unit {
+      font-size: 18px;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    
+    .calc-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    
+    .calc-use-btn {
+      flex: 1;
+      padding: 12px;
+      background: rgba(74, 222, 128, 0.2);
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .calc-use-btn:active {
+      background: rgba(74, 222, 128, 0.3);
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      padding: 14px 24px;
+      background: rgba(30, 30, 30, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 14px;
+      z-index: 3000;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    
+    .toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 28px 16px;
+      color: var(--text-secondary);
+    }
+    
+    .empty-state-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+      opacity: 0.5;
+    }
+    
+    .empty-state p {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    
+    /* Delete Section */
+    .delete-section {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .delete-section p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    
+    /* Page Title */
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      color: var(--gold);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    
+    /* Info Text */
+    .info-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    
+    /* Performance Grid */
+    .performance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    
+    .performance-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    
+    .performance-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    
+    .performance-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    .performance-value span {
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 500;
+    }
+    
+    /* Story Preview (hidden canvas for export) */
+    #storyCanvas {
+      display: none;
+    }
+    
+    @media (min-width: 768px) {
+      .modal-content {
+        border-radius: 24px;
+        margin: auto;
+        max-height: 85vh;
+      }
+      
+      .radar-chart {
+        width: 240px;
+        height: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <svg class="logo-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="50,5 95,85 5,85" />
+        <polygon points="50,25 80,75 20,75" />
+        <polygon points="50,45 65,65 35,65" />
+      </svg>
+      <span class="logo-text">Hybrid Warrior</span>
+    </div>
+    <div class="header-right">
+      <button class="icon-btn" onclick="openModal('settingsModal')">⚙️</button>
+      <div class="avatar" onclick="openModal('settingsModal')">HA</div>
+    </div>
+  </header>
+  
+  <!-- Pages Container -->
+  <div class="pages-container">
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="welcome-section">
+        <p class="welcome-greeting">Bentornato, Guerriero</p>
+        <h1 class="welcome-name" id="userName">Hybrid Athlete</h1>
+        <p class="welcome-date" id="currentDate"></p>
+      </div>
+      
+      <!-- Hero Score -->
+      <div class="hero-score-card" onclick="switchTab('stats')">
+        <div class="hero-score-ring">
+          <svg width="90" height="90">
+            <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(212, 175, 55, 0.15)" stroke-width="7" />
+            <circle id="scoreRing" cx="45" cy="45" r="38" fill="none" stroke="#D4AF37" stroke-width="7"
+              stroke-dasharray="239" stroke-dashoffset="239" stroke-linecap="round" />
+          </svg>
+          <div class="hero-score-value">
+            <span class="hero-score-number" id="hybridScore">0</span>
+            <span class="hero-score-label">Score</span>
+          </div>
+        </div>
+        <div class="hero-score-details">
+          <h2 class="hero-score-title">Hybrid Score</h2>
+          <div class="hero-score-stats">
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="recoveryScoreHome">--</span>
+              <span class="hero-stat-label">Recovery</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="totalSBD">0</span>
+              <span class="hero-stat-label">Total kg</span>
+            </div>
+            <div class="hero-stat">
+              <span class="hero-stat-value" id="rank">C</span>
+              <span class="hero-stat-label">Rank</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <button class="quick-action-btn" onclick="switchTab('training')">
+          <span class="quick-action-icon">🏋️</span>
+          <span class="quick-action-label">Dati</span>
+        </button>
+        <button class="quick-action-btn" onclick="openModal('calcModal')">
+          <span class="quick-action-icon">🔢</span>
+          <span class="quick-action-label">Calc 1RM</span>
+        </button>
+        <button class="quick-action-btn" onclick="switchTab('recovery')">
+          <span class="quick-action-icon">💤</span>
+          <span class="quick-action-label">Recovery</span>
+        </button>
+        <button class="quick-action-btn" onclick="openModal('goalModal')">
+          <span class="quick-action-icon">🎯</span>
+          <span class="quick-action-label">Obiettivi</span>
+        </button>
+      </div>
+      
+      <!-- Stats Grid -->
+      <div class="section-header">
+        <h2 class="section-title">Questa Settimana</h2>
+        <span class="section-action" onclick="openModal('statsModal')">Modifica →</span>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card" onclick="openModal('statsModal')">
+          <div class="stat-icon">🏋️</div>
+          <div class="stat-content">
+            <span class="stat-title">Sedute Palestra</span>
+            <div class="stat-value-row">
+              <span class="stat-value" id="statSessions">0</span>
+              <span class="stat-unit">/ sett</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" onclick="openModal('statsModal')">
+          <div class="stat-icon">🏃</div>
+          <div class="stat-content">
+            <span class="stat-title">Km Corsa</span>
+            <div class="stat-value-row">
+              <span class="stat-value" id="statDistance">0</span>
+              <span class="stat-unit">km</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" onclick="openModal('statsModal')">
+          <div class="stat-icon">❤️</div>
+          <div class="stat-content">
+            <span class="stat-title">Riposo HR</span>
+            <div class="stat-value-row">
+              <span class="stat-value" id="statHR">0</span>
+              <span class="stat-unit">bpm</span>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" onclick="openModal('statsModal')">
+          <div class="stat-icon">💓</div>
+          <div class="stat-content">
+            <span class="stat-title">HRV</span>
+            <div class="stat-value-row">
+              <span class="stat-value" id="statHRV">0</span>
+              <span class="stat-unit">ms</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Goals -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3 class="panel-title">I Tuoi Obiettivi</h3>
+          <span class="panel-action" onclick="openModal('goalModal')">+ Nuovo</span>
+        </div>
+        <div class="goals-list" id="goalsList"></div>
+      </div>
+    </div>
+    
+    <!-- TRAINING PAGE -->
+    <div class="page" id="page-training">
+      <h1 class="page-title">💪 I Tuoi Dati</h1>
+      <p class="info-text">Inserisci i tuoi valori reali. Il profilo atleta verrà calcolato automaticamente.</p>
+      
+      <!-- 1RM Calculator Card -->
+      <div class="calculator-card" onclick="openModal('calcModal')">
+        <div class="calculator-header">
+          <span class="calculator-icon">🔢</span>
+          <span class="calculator-title">Calcolatore 1RM</span>
+        </div>
+        <div class="calculator-desc">Non conosci il tuo massimale? Inserisci peso × ripetizioni e calcolalo!</div>
+      </div>
+      
+      <div class="training-category">
+        <div class="training-category-title">🏋️ Massimali (1RM)</div>
+        <div class="exercise-list">
+          <div class="exercise-card" onclick="openModal('exerciseModal', 'squat')">
+            <span class="exercise-name">Squat</span>
+            <span class="exercise-value" id="display1rmSquat">-- <span>kg</span></span>
+          </div>
+          <div class="exercise-card" onclick="openModal('exerciseModal', 'bench')">
+            <span class="exercise-name">Panca Piana</span>
+            <span class="exercise-value" id="display1rmBench">-- <span>kg</span></span>
+          </div>
+          <div class="exercise-card" onclick="openModal('exerciseModal', 'deadlift')">
+            <span class="exercise-name">Stacco</span>
+            <span class="exercise-value" id="display1rmDeadlift">-- <span>kg</span></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="training-category">
+        <div class="training-category-title">🏃 Tempi di Corsa</div>
+        <div class="exercise-list">
+          <div class="exercise-card" onclick="openModal('runModal', '5k')">
+            <span class="exercise-name">5 Km</span>
+            <span class="exercise-value" id="displayTime5k">--:-- <span>min</span></span>
+          </div>
+          <div class="exercise-card" onclick="openModal('runModal', '10k')">
+            <span class="exercise-name">10 Km</span>
+            <span class="exercise-value" id="displayTime10k">--:-- <span>min</span></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="training-category">
+        <div class="training-category-title">⚡ Test Esplosività</div>
+        <div class="exercise-list">
+          <div class="exercise-card" onclick="openModal('jumpModal')">
+            <span class="exercise-name">Broad Jump</span>
+            <span class="exercise-value" id="displayBroadJump">-- <span>cm</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- STATS PAGE -->
+    <div class="page" id="page-stats">
+      <h1 class="page-title">📈 Il Tuo Profilo</h1>
+      <p class="info-text">Ecco come ti posizioni rispetto ad altri atleti ibridi.</p>
+      
+      <!-- Radar Chart -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Grafico Radar</h3>
+        </div>
+        <div class="radar-section">
+          <div class="radar-chart-container">
+            <canvas id="radarChart" class="radar-chart"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Comparator -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3 class="panel-title">📊 Come Ti Posizioni</h3>
+        </div>
+        <div class="comparator-grid" id="comparatorGrid"></div>
+      </div>
+      
+      <!-- Attributes -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Le Tue Capacità</h3>
+        </div>
+        <div class="attributes-explained" id="attributesList"></div>
+      </div>
+      
+      <!-- Performance Summary -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3 class="panel-title">Riepilogo Numeri</h3>
+        </div>
+        <div class="performance-grid">
+          <div class="performance-card">
+            <div class="performance-label">Totale SBD</div>
+            <div class="performance-value" id="summaryTotal">-- <span>kg</span></div>
+          </div>
+          <div class="performance-card">
+            <div class="performance-label">VO2max Stimato</div>
+            <div class="performance-value" id="summaryVO2">-- <span>ml/kg/min</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Share Button -->
+      <button class="share-btn" onclick="generateStory()">
+        <span class="share-btn-icon">📸</span>
+        Condividi su Instagram Story
+      </button>
+    </div>
+    
+    <!-- RECOVERY PAGE -->
+    <div class="page" id="page-recovery">
+      <h1 class="page-title">💤 Check Recovery</h1>
+      <p class="info-text">Rispondi alle domande per calcolare il tuo punteggio di recupero odierno.</p>
+      
+      <!-- Recovery Score -->
+      <div class="recovery-intro">
+        <div class="recovery-score-big" id="recoveryScoreBig">--</div>
+        <div class="recovery-score-label">Punteggio Recovery</div>
+        <div class="recovery-status" id="recoveryStatus">Completa il questionario</div>
+      </div>
+      
+      <!-- Questionnaire -->
+      <div class="questionnaire">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">😴</span>
+            <span class="question-text">Quante ore hai dormito?</span>
+          </div>
+          <div class="sleep-input-row">
+            <input type="number" class="sleep-input" id="sleepHours" min="0" max="12" step="0.5" value="7" onchange="updateRecovery()">
+            <span class="sleep-label">ore</span>
+          </div>
+        </div>
+        
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">🌙</span>
+            <span class="question-text">Qualità del sonno?</span>
+          </div>
+          <div class="rating-buttons" id="sleepQuality">
+            <button class="rating-btn red" data-value="1" onclick="selectRating('sleepQuality', 1)">Pessima</button>
+            <button class="rating-btn orange" data-value="2" onclick="selectRating('sleepQuality', 2)">Scarsa</button>
+            <button class="rating-btn" data-value="3" onclick="selectRating('sleepQuality', 3)">OK</button>
+            <button class="rating-btn green" data-value="4" onclick="selectRating('sleepQuality', 4)">Buona</button>
+            <button class="rating-btn green" data-value="5" onclick="selectRating('sleepQuality', 5)">Ottima</button>
+          </div>
+        </div>
+        
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">⚡</span>
+            <span class="question-text">Come ti senti energeticamente?</span>
+          </div>
+          <div class="rating-buttons" id="energyLevel">
+            <button class="rating-btn red" data-value="1" onclick="selectRating('energyLevel', 1)">Esausto</button>
+            <button class="rating-btn orange" data-value="2" onclick="selectRating('energyLevel', 2)">Stanco</button>
+            <button class="rating-btn" data-value="3" onclick="selectRating('energyLevel', 3)">Normale</button>
+            <button class="rating-btn green" data-value="4" onclick="selectRating('energyLevel', 4)">Bene</button>
+            <button class="rating-btn green" data-value="5" onclick="selectRating('energyLevel', 5)">Carico!</button>
+          </div>
+        </div>
+        
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">💪</span>
+            <span class="question-text">Indolenzimento muscolare (DOMS)?</span>
+          </div>
+          <div class="rating-buttons" id="soreness">
+            <button class="rating-btn green" data-value="5" onclick="selectRating('soreness', 5)">Nessuno</button>
+            <button class="rating-btn green" data-value="4" onclick="selectRating('soreness', 4)">Leggero</button>
+            <button class="rating-btn" data-value="3" onclick="selectRating('soreness', 3)">Moderato</button>
+            <button class="rating-btn orange" data-value="2" onclick="selectRating('soreness', 2)">Forte</button>
+            <button class="rating-btn red" data-value="1" onclick="selectRating('soreness', 1)">Molto forte</button>
+          </div>
+        </div>
+        
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">🧠</span>
+            <span class="question-text">Livello di stress mentale?</span>
+          </div>
+          <div class="rating-buttons" id="stressLevel">
+            <button class="rating-btn green" data-value="5" onclick="selectRating('stressLevel', 5)">Zen</button>
+            <button class="rating-btn green" data-value="4" onclick="selectRating('stressLevel', 4)">Rilassato</button>
+            <button class="rating-btn" data-value="3" onclick="selectRating('stressLevel', 3)">Normale</button>
+            <button class="rating-btn orange" data-value="2" onclick="selectRating('stressLevel', 2)">Stressato</button>
+            <button class="rating-btn red" data-value="1" onclick="selectRating('stressLevel', 1)">Molto stressato</button>
+          </div>
+        </div>
+        
+        <div class="question-card">
+          <div class="question-header">
+            <span class="question-icon">🔥</span>
+            <span class="question-text">Voglia di allenarti oggi?</span>
+          </div>
+          <div class="rating-buttons" id="motivation">
+            <button class="rating-btn red" data-value="1" onclick="selectRating('motivation', 1)">Zero</button>
+            <button class="rating-btn orange" data-value="2" onclick="selectRating('motivation', 2)">Poca</button>
+            <button class="rating-btn" data-value="3" onclick="selectRating('motivation', 3)">Normale</button>
+            <button class="rating-btn green" data-value="4" onclick="selectRating('motivation', 4)">Alta</button>
+            <button class="rating-btn green" data-value="5" onclick="selectRating('motivation', 5)">Carichissimo!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav-item active" data-tab="home" onclick="switchTab('home')">
+      <span class="bottom-nav-icon">🏠</span>
+      <span class="bottom-nav-label">Home</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="training" onclick="switchTab('training')">
+      <span class="bottom-nav-icon">🏋️</span>
+      <span class="bottom-nav-label">Dati</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="stats" onclick="switchTab('stats')">
+      <span class="bottom-nav-icon">📈</span>
+      <span class="bottom-nav-label">Profilo</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="recovery" onclick="switchTab('recovery')">
+      <span class="bottom-nav-icon">💤</span>
+      <span class="bottom-nav-label">Recovery</span>
+    </button>
+  </nav>
+  
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+  
+  <!-- Hidden canvas for story generation -->
+  <canvas id="storyCanvas" width="1080" height="1920"></canvas>
+  
+  <!-- 1RM Calculator Modal -->
+  <div class="modal-overlay" id="calcModal" onclick="closeModal('calcModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>🔢 Calcolatore 1RM</h3>
+        <button class="modal-close" onclick="closeModal('calcModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 18px;">
+          Inserisci il peso sollevato e le ripetizioni completate per stimare il tuo massimale.
+        </p>
+        <div class="input-field">
+          <label>Esercizio</label>
+          <select id="calcExercise">
+            <option value="squat">Squat</option>
+            <option value="bench">Panca Piana</option>
+            <option value="deadlift">Stacco</option>
+            <option value="other">Altro</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <div class="input-field">
+            <label>Peso sollevato (kg)</label>
+            <input type="number" id="calcWeight" min="0" max="500" placeholder="100">
+          </div>
+          <div class="input-field">
+            <label>Ripetizioni</label>
+            <input type="number" id="calcReps" min="1" max="15" placeholder="5">
+          </div>
+        </div>
+        <div class="input-hint">⚠️ Più accurato con 1-10 ripetizioni</div>
+        
+        <div class="modal-actions" style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="calculate1RM()">Calcola 1RM</button>
+        </div>
+        
+        <div class="calc-result" id="calcResult" style="display: none;">
+          <div class="calc-result-label">Il tuo 1RM stimato</div>
+          <div class="calc-result-value" id="calcResultValue">0</div>
+          <div class="calc-result-unit">kg</div>
+          <div class="calc-actions">
+            <button class="calc-use-btn" id="calcUseBtn" onclick="use1RMValue()">✓ Usa questo valore</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Goal Modal -->
+  <div class="modal-overlay" id="goalModal" onclick="closeModal('goalModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="goalModalTitle">Nuovo Obiettivo</h3>
+        <button class="modal-close" onclick="closeModal('goalModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="goalId">
+        <div class="input-field">
+          <label>Tipo Obiettivo</label>
+          <select id="goalType" onchange="updateGoalFields()">
+            <option value="strength">🏋️ Forza (kg)</option>
+            <option value="running">🏃 Corsa (tempo)</option>
+            <option value="other">📊 Altro</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <label>Nome Obiettivo</label>
+          <input type="text" id="goalName" placeholder="Es. Squat 150kg, 5K in 22 minuti">
+        </div>
+        <div class="input-row" id="goalValuesRow">
+          <div class="input-field">
+            <label id="goalCurrentLabel">Valore Attuale</label>
+            <input type="text" id="goalCurrent" placeholder="Es. 130">
+            <div class="input-hint" id="goalCurrentHint">Il tuo valore attuale</div>
+          </div>
+          <div class="input-field">
+            <label id="goalTargetLabel">Obiettivo</label>
+            <input type="text" id="goalTarget" placeholder="Es. 150">
+            <div class="input-hint" id="goalTargetHint">Il valore che vuoi raggiungere</div>
+          </div>
+        </div>
+        <div class="input-field" id="goalUnitField">
+          <label>Unità di misura</label>
+          <input type="text" id="goalUnit" placeholder="kg, min, cm...">
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-danger" id="deleteGoalBtn" style="display: none;" onclick="deleteGoal()">Elimina</button>
+          <button class="btn btn-primary" onclick="saveGoal()">Salva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats Modal -->
+  <div class="modal-overlay" id="statsModal" onclick="closeModal('statsModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Statistiche Settimanali</h3>
+        <button class="modal-close" onclick="closeModal('statsModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-field">
+          <label>Quante volte sei andato in palestra questa settimana?</label>
+          <input type="number" id="inputSessions" min="0" max="14" placeholder="Es. 4">
+        </div>
+        <div class="input-field">
+          <label>Quanti km hai corso questa settimana?</label>
+          <input type="number" id="inputDistance" min="0" placeholder="Es. 20">
+        </div>
+        <div class="input-field">
+          <label>Frequenza cardiaca a riposo (bpm)</label>
+          <input type="number" id="inputHR" min="30" max="120" placeholder="Es. 58">
+          <div class="input-hint">Misurata al mattino appena sveglio</div>
+        </div>
+        <div class="input-field">
+          <label>HRV - Variabilità cardiaca (ms)</label>
+          <input type="number" id="inputHRV" min="0" max="200" placeholder="Es. 45">
+          <div class="input-hint">Se hai un orologio che la misura</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="saveStats()">Salva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Exercise Modal (1RM) -->
+  <div class="modal-overlay" id="exerciseModal" onclick="closeModal('exerciseModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="exerciseModalTitle">Inserisci 1RM</h3>
+        <button class="modal-close" onclick="closeModal('exerciseModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="exerciseType">
+        <div class="input-field">
+          <label>Il tuo massimale (1RM) in kg</label>
+          <input type="number" id="exercise1rm" min="0" max="500" step="0.5" placeholder="Es. 140">
+          <div class="input-hint">Il peso massimo che riesci a sollevare per 1 ripetizione</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="saveExercise()">Salva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Run Modal -->
+  <div class="modal-overlay" id="runModal" onclick="closeModal('runModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="runModalTitle">Tempo di Corsa</h3>
+        <button class="modal-close" onclick="closeModal('runModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="runType">
+        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 18px;">Inserisci il tuo miglior tempo recente</p>
+        <div class="input-row">
+          <div class="input-field">
+            <label>Minuti</label>
+            <input type="number" id="runMinutes" min="0" max="120" placeholder="22">
+          </div>
+          <div class="input-field">
+            <label>Secondi</label>
+            <input type="number" id="runSeconds" min="0" max="59" placeholder="30">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="saveRunTime()">Salva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Jump Modal -->
+  <div class="modal-overlay" id="jumpModal" onclick="closeModal('jumpModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Broad Jump</h3>
+        <button class="modal-close" onclick="closeModal('jumpModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 18px;">Salto in lungo da fermo: parti con i piedi uniti e salta più lontano possibile</p>
+        <div class="input-field">
+          <label>Distanza raggiunta (cm)</label>
+          <input type="number" id="broadJump" min="0" max="400" placeholder="Es. 240">
+          <div class="input-hint">Media maschile: 200-250cm, Elite: 300cm+</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="saveBroadJump()">Salva</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal" onclick="closeModal('settingsModal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Impostazioni</h3>
+        <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-field">
+          <label>Il tuo nome</label>
+          <input type="text" id="inputUserName" placeholder="Es. Marco">
+        </div>
+        <div class="input-field">
+          <label>Peso corporeo (kg)</label>
+          <input type="number" id="inputBodyweight" min="30" max="200" step="0.1" placeholder="Es. 80">
+          <div class="input-hint">Serve per calcolare i punteggi relativi</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" onclick="saveSettings()">Salva</button>
+        </div>
+        <div class="delete-section">
+          <p>Ripristina tutti i dati ai valori iniziali</p>
+          <button class="btn btn-danger" style="width: 100%;" onclick="resetData()">Reset App</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Default Data
+    const defaultData = {
+      userName: 'Atleta',
+      bodyweight: 80,
+      stats: { sessions: 0, distance: 0, hr: 0, hrv: 0 },
+      performance: {
+        squat: 0,
+        bench: 0,
+        deadlift: 0,
+        time5k: { min: 0, sec: 0 },
+        time10k: { min: 0, sec: 0 },
+        broadJump: 0
+      },
+      goals: [],
+      recovery: {
+        sleepHours: 7,
+        sleepQuality: 0,
+        energyLevel: 0,
+        soreness: 0,
+        stressLevel: 0,
+        motivation: 0
+      }
+    };
+    
+    let appData = JSON.parse(localStorage.getItem('hybridWarriorDataV4')) || JSON.parse(JSON.stringify(defaultData));
+    
+    // Ensure all fields exist
+    if (!appData.performance) appData.performance = defaultData.performance;
+    if (!appData.bodyweight) appData.bodyweight = defaultData.bodyweight;
+    if (!appData.recovery) appData.recovery = defaultData.recovery;
+    if (!appData.goals) appData.goals = [];
+    
+    function saveData() {
+      localStorage.setItem('hybridWarriorDataV4', JSON.stringify(appData));
+    }
+    
+    // Tab Navigation
+    function switchTab(tabName) {
+      document.querySelectorAll('.bottom-nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.tab === tabName) item.classList.add('active');
+      });
+      
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(`page-${tabName}`).classList.add('active');
+      
+      if (tabName === 'stats') {
+        renderRadarChart();
+        renderAttributesList();
+        renderComparator();
+      }
+      if (tabName === 'training') renderTrainingPage();
+      if (tabName === 'recovery') renderRecoveryPage();
+    }
+    
+    // Initialize
+    function init() {
+      setCurrentDate();
+      renderAll();
+    }
+    
+    function setCurrentDate() {
+      const options = { weekday: 'long', day: 'numeric', month: 'long' };
+      document.getElementById('currentDate').textContent = new Date().toLocaleDateString('it-IT', options);
+    }
+    
+    function renderAll() {
+      renderUserName();
+      renderStats();
+      renderHybridScore();
+      renderGoals();
+      renderTrainingPage();
+      renderRecoveryPage();
+      renderSummary();
+    }
+    
+    function renderUserName() {
+      document.getElementById('userName').textContent = appData.userName;
+      document.querySelector('.avatar').textContent = appData.userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    }
+    
+    function renderStats() {
+      document.getElementById('statSessions').textContent = appData.stats.sessions || '--';
+      document.getElementById('statDistance').textContent = appData.stats.distance || '--';
+      document.getElementById('statHR').textContent = appData.stats.hr || '--';
+      document.getElementById('statHRV').textContent = appData.stats.hrv || '--';
+    }
+    
+    // Attribute info
+    const attributeInfo = {
+      strength: { icon: '🏋️', name: 'Forza Massima', desc: 'Basato sui tuoi massimali rispetto al peso corporeo' },
+      power: { icon: '⚡', name: 'Potenza Esplosiva', desc: 'Basato sulla distanza del tuo broad jump' },
+      speed: { icon: '🏃', name: 'Velocità', desc: 'Basato sul tuo tempo sui 5km' },
+      endurance: { icon: '🫀', name: 'Resistenza', desc: 'Basato sul tuo tempo sui 10km' },
+      recovery: { icon: '😴', name: 'Recupero', desc: 'Basato sulle risposte al questionario recovery' }
+    };
+    
+    // Benchmark database for percentile comparison
+    const benchmarks = {
+      // Total SBD relative to BW - percentiles
+      strengthRatio: { p90: 7, p75: 5.5, p50: 4.5, p25: 3.5 },
+      // Broad jump cm
+      broadJump: { p90: 280, p75: 250, p50: 220, p25: 190 },
+      // 5K time in seconds
+      time5k: { p90: 1200, p75: 1350, p50: 1500, p25: 1800 }, // Lower is better
+      // 10K time in seconds  
+      time10k: { p90: 2700, p75: 3000, p50: 3300, p25: 3900 }, // Lower is better
+      // Hybrid Score
+      hybridScore: { p90: 75, p75: 60, p50: 45, p25: 30 }
+    };
+    
+    function getPercentile(value, benchmark, lowerIsBetter = false) {
+      if (!value || value === 0) return null;
+      
+      if (lowerIsBetter) {
+        if (value <= benchmark.p90) return { percentile: 90, class: 'top10', label: 'Top 10%' };
+        if (value <= benchmark.p75) return { percentile: 75, class: 'top25', label: 'Top 25%' };
+        if (value <= benchmark.p50) return { percentile: 50, class: 'top50', label: 'Top 50%' };
+        return { percentile: 25, class: 'bottom50', label: 'Sotto media' };
+      } else {
+        if (value >= benchmark.p90) return { percentile: 90, class: 'top10', label: 'Top 10%' };
+        if (value >= benchmark.p75) return { percentile: 75, class: 'top25', label: 'Top 25%' };
+        if (value >= benchmark.p50) return { percentile: 50, class: 'top50', label: 'Top 50%' };
+        return { percentile: 25, class: 'bottom50', label: 'Sotto media' };
+      }
+    }
+    
+    // Calculate athlete profile
+    function calculateAttributes() {
+      const p = appData.performance;
+      const bw = appData.bodyweight || 80;
+      
+      const total = (p.squat || 0) + (p.bench || 0) + (p.deadlift || 0);
+      const strengthRatio = total / bw;
+      const strength = total > 0 ? Math.min(100, Math.round((strengthRatio / 8) * 100)) : 0;
+      
+      const power = p.broadJump > 0 ? Math.min(100, Math.round((p.broadJump / 300) * 100)) : 0;
+      
+      const time5kSec = (p.time5k?.min || 0) * 60 + (p.time5k?.sec || 0);
+      const speed = time5kSec > 0 ? Math.min(100, Math.max(0, Math.round(((1800 - time5kSec) / 900) * 100))) : 0;
+      
+      const time10kSec = (p.time10k?.min || 0) * 60 + (p.time10k?.sec || 0);
+      const endurance = time10kSec > 0 ? Math.min(100, Math.max(0, Math.round(((4200 - time10kSec) / 2100) * 100))) : 0;
+      
+      const recoveryScore = calculateRecoveryScore();
+      const recovery = recoveryScore > 0 ? recoveryScore : 0;
+      
+      return { strength, power, speed, endurance, recovery };
+    }
+    
+    function calculateRecoveryScore() {
+      const r = appData.recovery;
+      if (!r.sleepQuality && !r.energyLevel && !r.soreness && !r.stressLevel && !r.motivation) {
+        return 0;
+      }
+      
+      const sleepPoints = Math.min(25, (r.sleepHours / 8) * 25);
+      const qualityPoints = (r.sleepQuality || 3) * 3;
+      const energyPoints = (r.energyLevel || 3) * 3;
+      const sorenessPoints = (r.soreness || 3) * 3;
+      const stressPoints = (r.stressLevel || 3) * 3;
+      const motivationPoints = (r.motivation || 3) * 3;
+      
+      const total = sleepPoints + qualityPoints + energyPoints + sorenessPoints + stressPoints + motivationPoints;
+      return Math.round(total);
+    }
+    
+    function calculateHybridScore() {
+      const attrs = calculateAttributes();
+      const hasData = Object.values(attrs).some(v => v > 0);
+      if (!hasData) return 0;
+      
+      const strengthScore = (attrs.strength + attrs.power) / 2;
+      const enduranceScore = (attrs.endurance + attrs.speed) / 2;
+      const balance = 100 - Math.abs(strengthScore - enduranceScore);
+      
+      return Math.round((strengthScore * 0.35 + enduranceScore * 0.35 + attrs.recovery * 0.15 + balance * 0.15));
+    }
+    
+    function renderHybridScore() {
+      const score = calculateHybridScore();
+      const total = (appData.performance.squat || 0) + (appData.performance.bench || 0) + (appData.performance.deadlift || 0);
+      const recoveryScore = calculateRecoveryScore();
+      
+      document.getElementById('hybridScore').textContent = score || '--';
+      document.getElementById('totalSBD').textContent = total || '--';
+      document.getElementById('recoveryScoreHome').textContent = recoveryScore || '--';
+      
+      const ring = document.getElementById('scoreRing');
+      const circumference = 2 * Math.PI * 38;
+      const offset = circumference - ((score || 0) / 100) * circumference;
+      ring.style.strokeDashoffset = offset;
+      
+      document.getElementById('rank').textContent = score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : score > 0 ? 'D' : '-';
+    }
+    
+    function renderGoals() {
+      const container = document.getElementById('goalsList');
+      if (appData.goals.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎯</div><p>Nessun obiettivo impostato<br>Tocca "+ Nuovo" per aggiungerne uno</p></div>`;
+        return;
+      }
+      
+      container.innerHTML = appData.goals.map(g => {
+        let progress = 0;
+        
+        if (g.type === 'running') {
+          const currentSec = parseTimeToSeconds(g.current);
+          const targetSec = parseTimeToSeconds(g.target);
+          const startSec = currentSec + 300;
+          progress = Math.min(100, Math.max(0, ((startSec - currentSec) / (startSec - targetSec)) * 100));
+        } else {
+          progress = Math.min((parseFloat(g.current) / parseFloat(g.target)) * 100, 100);
+        }
+        
+        const icon = g.type === 'strength' ? '🏋️' : g.type === 'running' ? '🏃' : '📊';
+        const barClass = g.type === 'running' ? 'running' : '';
+        
+        return `
+          <div class="goal-item" onclick="editGoal(${g.id})">
+            <div class="goal-header">
+              <span class="goal-name"><span class="goal-type-icon">${icon}</span> ${g.name}</span>
+              <span class="goal-values"><span>${g.current}</span> → ${g.target} ${g.unit}</span>
+            </div>
+            <div class="goal-bar">
+              <div class="goal-progress ${barClass}" style="width: ${progress}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function parseTimeToSeconds(timeStr) {
+      if (typeof timeStr === 'number') return timeStr * 60;
+      const parts = String(timeStr).split(':');
+      return parseInt(parts[0]) * 60 + (parseInt(parts[1]) || 0);
+    }
+    
+    function renderTrainingPage() {
+      const p = appData.performance;
+      document.getElementById('display1rmSquat').innerHTML = p.squat ? `${p.squat} <span>kg</span>` : `-- <span>kg</span>`;
+      document.getElementById('display1rmBench').innerHTML = p.bench ? `${p.bench} <span>kg</span>` : `-- <span>kg</span>`;
+      document.getElementById('display1rmDeadlift').innerHTML = p.deadlift ? `${p.deadlift} <span>kg</span>` : `-- <span>kg</span>`;
+      
+      const t5k = p.time5k || { min: 0, sec: 0 };
+      const t10k = p.time10k || { min: 0, sec: 0 };
+      document.getElementById('displayTime5k').innerHTML = t5k.min ? `${t5k.min}:${String(t5k.sec || 0).padStart(2, '0')} <span>min</span>` : `--:-- <span>min</span>`;
+      document.getElementById('displayTime10k').innerHTML = t10k.min ? `${t10k.min}:${String(t10k.sec || 0).padStart(2, '0')} <span>min</span>` : `--:-- <span>min</span>`;
+      
+      document.getElementById('displayBroadJump').innerHTML = p.broadJump ? `${p.broadJump} <span>cm</span>` : `-- <span>cm</span>`;
+    }
+    
+    function renderRadarChart() {
+      const canvas = document.getElementById('radarChart');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const size = canvas.offsetWidth || 200;
+      canvas.width = size;
+      canvas.height = size;
+      
+      const centerX = size / 2;
+      const centerY = size / 2;
+      const radius = size * 0.38;
+      const attrs = calculateAttributes();
+      const attrKeys = ['strength', 'power', 'speed', 'endurance', 'recovery'];
+      const labels = ['FOR', 'POT', 'VEL', 'RES', 'REC'];
+      const numPoints = 5;
+      
+      ctx.clearRect(0, 0, size, size);
+      
+      // Draw grid
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.lineWidth = 1;
+      for (let r = 0.25; r <= 1; r += 0.25) {
+        ctx.beginPath();
+        for (let i = 0; i <= numPoints; i++) {
+          const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+          const x = centerX + Math.cos(angle) * radius * r;
+          const y = centerY + Math.sin(angle) * radius * r;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+      
+      // Draw axes
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX + Math.cos(angle) * radius, centerY + Math.sin(angle) * radius);
+        ctx.stroke();
+      }
+      
+      // Draw data
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i < numPoints; i++) {
+        const value = (attrs[attrKeys[i]] || 0) / 100;
+        const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * radius * Math.max(value, 0.05);
+        const y = centerY + Math.sin(angle) * radius * Math.max(value, 0.05);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      
+      // Draw labels
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = 'bold 11px Rajdhani';
+      ctx.textAlign = 'center';
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (Math.PI * 2 * i) / numPoints - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * (radius + 16);
+        const y = centerY + Math.sin(angle) * (radius + 16) + 4;
+        ctx.fillText(labels[i], x, y);
+      }
+    }
+    
+    function renderAttributesList() {
+      const attrs = calculateAttributes();
+      const attrKeys = ['strength', 'power', 'speed', 'endurance'];
+      
+      const container = document.getElementById('attributesList');
+      if (!container) return;
+      
+      container.innerHTML = attrKeys.map(key => {
+        const info = attributeInfo[key];
+        const value = attrs[key] || 0;
+        return `
+          <div class="attribute-row">
+            <span class="attribute-icon">${info.icon}</span>
+            <div class="attribute-info">
+              <div class="attribute-name">${info.name}</div>
+              <div class="attribute-desc">${info.desc}</div>
+            </div>
+            <span class="attribute-score">${value || '--'}</span>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function renderComparator() {
+      const p = appData.performance;
+      const bw = appData.bodyweight || 80;
+      const container = document.getElementById('comparatorGrid');
+      
+      const total = (p.squat || 0) + (p.bench || 0) + (p.deadlift || 0);
+      const strengthRatio = total / bw;
+      const time5kSec = (p.time5k?.min || 0) * 60 + (p.time5k?.sec || 0);
+      const time10kSec = (p.time10k?.min || 0) * 60 + (p.time10k?.sec || 0);
+      const hybridScore = calculateHybridScore();
+      
+      const comparisons = [
+        {
+          icon: '🏋️',
+          label: 'Forza Relativa',
+          value: total > 0 ? `${strengthRatio.toFixed(1)}× BW` : '--',
+          percentile: getPercentile(strengthRatio, benchmarks.strengthRatio),
+          fillPercent: total > 0 ? Math.min(100, (strengthRatio / benchmarks.strengthRatio.p90) * 100) : 0
+        },
+        {
+          icon: '⚡',
+          label: 'Broad Jump',
+          value: p.broadJump > 0 ? `${p.broadJump} cm` : '--',
+          percentile: getPercentile(p.broadJump, benchmarks.broadJump),
+          fillPercent: p.broadJump > 0 ? Math.min(100, (p.broadJump / benchmarks.broadJump.p90) * 100) : 0
+        },
+        {
+          icon: '🏃',
+          label: 'Tempo 5K',
+          value: time5kSec > 0 ? `${p.time5k.min}:${String(p.time5k.sec).padStart(2, '0')}` : '--',
+          percentile: getPercentile(time5kSec, benchmarks.time5k, true),
+          fillPercent: time5kSec > 0 ? Math.min(100, (benchmarks.time5k.p25 / time5kSec) * 100) : 0
+        },
+        {
+          icon: '🏆',
+          label: 'Hybrid Score',
+          value: hybridScore > 0 ? hybridScore : '--',
+          percentile: getPercentile(hybridScore, benchmarks.hybridScore),
+          fillPercent: hybridScore > 0 ? hybridScore : 0
+        }
+      ];
+      
+      container.innerHTML = comparisons.map(c => {
+        const badgeHtml = c.percentile ? 
+          `<span class="percentile-badge ${c.percentile.class}">${c.percentile.label}</span>` : '';
+        
+        const fillColor = c.percentile ? 
+          (c.percentile.class === 'top10' ? 'var(--gold)' : 
+           c.percentile.class === 'top25' ? 'var(--green)' : 
+           c.percentile.class === 'top50' ? 'var(--blue)' : 'var(--text-secondary)') : 'var(--text-secondary)';
+        
+        return `
+          <div class="comparator-item">
+            <div class="comparator-icon">${c.icon}</div>
+            <div class="comparator-info">
+              <div class="comparator-label">${c.label}</div>
+              <div class="comparator-value">${c.value} ${badgeHtml}</div>
+              <div class="comparator-bar">
+                <div class="comparator-fill" style="width: ${c.fillPercent}%; background: ${fillColor}"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function renderSummary() {
+      const p = appData.performance;
+      const total = (p.squat || 0) + (p.bench || 0) + (p.deadlift || 0);
+      
+      document.getElementById('summaryTotal').innerHTML = total > 0 ? `${total} <span>kg</span>` : `-- <span>kg</span>`;
+      
+      // VO2max estimation from 5K time (ACSM formula)
+      const tempo5kSec = (p.time5k?.min || 0) * 60 + (p.time5k?.sec || 0);
+      const vo2max = tempo5kSec > 0 ? Math.round((5000 / tempo5kSec * 60 * 0.2) + 3.5) : 0;
+      document.getElementById('summaryVO2').innerHTML = vo2max > 0 ? `${vo2max} <span>ml/kg/min</span>` : `-- <span>ml/kg/min</span>`;
+    }
+    
+    // Recovery Page
+    function renderRecoveryPage() {
+      const r = appData.recovery;
+      
+      document.getElementById('sleepHours').value = r.sleepHours || 7;
+      
+      if (r.sleepQuality) selectRating('sleepQuality', r.sleepQuality, false);
+      if (r.energyLevel) selectRating('energyLevel', r.energyLevel, false);
+      if (r.soreness) selectRating('soreness', r.soreness, false);
+      if (r.stressLevel) selectRating('stressLevel', r.stressLevel, false);
+      if (r.motivation) selectRating('motivation', r.motivation, false);
+      
+      updateRecoveryDisplay();
+    }
+    
+    function selectRating(questionId, value, shouldSave = true) {
+      const container = document.getElementById(questionId);
+      container.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.classList.remove('selected');
+        if (parseInt(btn.dataset.value) === value) {
+          btn.classList.add('selected');
+        }
+      });
+      
+      appData.recovery[questionId] = value;
+      
+      if (shouldSave) {
+        saveData();
+        updateRecovery();
+      }
+    }
+    
+    function updateRecovery() {
+      appData.recovery.sleepHours = parseFloat(document.getElementById('sleepHours').value) || 7;
+      saveData();
+      updateRecoveryDisplay();
+      renderHybridScore();
+    }
+    
+    function updateRecoveryDisplay() {
+      const score = calculateRecoveryScore();
+      
+      document.getElementById('recoveryScoreBig').textContent = score || '--';
+      
+      const statusEl = document.getElementById('recoveryStatus');
+      if (score === 0) {
+        statusEl.textContent = 'Completa il questionario';
+        statusEl.className = 'recovery-status';
+      } else if (score >= 80) {
+        statusEl.textContent = '🟢 Ottimo! Pronto per allenamento intenso';
+        statusEl.className = 'recovery-status excellent';
+      } else if (score >= 60) {
+        statusEl.textContent = '🔵 Buono - Puoi allenarti normalmente';
+        statusEl.className = 'recovery-status good';
+      } else if (score >= 40) {
+        statusEl.textContent = '🟠 Moderato - Considera un allenamento leggero';
+        statusEl.className = 'recovery-status moderate';
+      } else {
+        statusEl.textContent = '🔴 Basso - Riposo o recupero attivo consigliato';
+        statusEl.className = 'recovery-status poor';
+      }
+    }
+    
+    // 1RM Calculator
+    let calculated1RM = 0;
+    
+    function calculate1RM() {
+      const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
+      const reps = parseInt(document.getElementById('calcReps').value) || 0;
+      
+      if (weight <= 0 || reps <= 0) {
+        showToast('Inserisci peso e ripetizioni');
+        return;
+      }
+      
+      if (reps > 15) {
+        showToast('Per precisione usa max 15 ripetizioni');
+        return;
+      }
+      
+      // Epley formula: 1RM = weight × (1 + reps/30)
+      calculated1RM = Math.round(weight * (1 + reps / 30));
+      
+      document.getElementById('calcResultValue').textContent = calculated1RM;
+      document.getElementById('calcResult').style.display = 'block';
+      
+      const exercise = document.getElementById('calcExercise').value;
+      if (exercise !== 'other') {
+        document.getElementById('calcUseBtn').style.display = 'block';
+      } else {
+        document.getElementById('calcUseBtn').style.display = 'none';
+      }
+    }
+    
+    function use1RMValue() {
+      const exercise = document.getElementById('calcExercise').value;
+      if (exercise !== 'other' && calculated1RM > 0) {
+        appData.performance[exercise] = calculated1RM;
+        saveData();
+        renderTrainingPage();
+        renderHybridScore();
+        renderSummary();
+        closeModal('calcModal');
+        showToast(`${exercise.charAt(0).toUpperCase() + exercise.slice(1)} aggiornato a ${calculated1RM}kg`);
+      }
+    }
+    
+    // Instagram Story Generator
+    function generateStory() {
+      const canvas = document.getElementById('storyCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Story dimensions (1080x1920)
+      const w = 1080;
+      const h = 1920;
+      
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, w, h);
+      gradient.addColorStop(0, '#0a0a0a');
+      gradient.addColorStop(0.5, '#1a1a1a');
+      gradient.addColorStop(1, '#0d0d0d');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, w, h);
+      
+      // Gold glow effect
+      const glow = ctx.createRadialGradient(w/2, h * 0.3, 0, w/2, h * 0.3, 400);
+      glow.addColorStop(0, 'rgba(212, 175, 55, 0.1)');
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, w, h);
+      
+      // Logo (Valknut triangle)
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(w/2, 140);
+      ctx.lineTo(w/2 + 60, 240);
+      ctx.lineTo(w/2 - 60, 240);
+      ctx.closePath();
+      ctx.stroke();
+      
+      // Title
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 56px Helvetica';
+      ctx.textAlign = 'center';
+      ctx.fillText('HYBRID WARRIOR', w/2, 340);
+      
+      // Hybrid Score Circle
+      const score = calculateHybridScore();
+      const centerX = w/2;
+      const centerY = 580;
+      const radius = 140;
+      
+      // Circle background
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.2)';
+      ctx.lineWidth = 20;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.stroke();
+      
+      // Circle progress
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 20;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, -Math.PI/2, -Math.PI/2 + (score/100) * Math.PI * 2);
+      ctx.stroke();
+      
+      // Score number
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 120px Helvetica';
+      ctx.fillText(score || '--', centerX, centerY + 40);
+      
+      // Score label
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.font = '32px Helvetica';
+      ctx.fillText('HYBRID SCORE', centerX, centerY + 100);
+      
+      // Rank
+      const rank = score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : 'D';
+      ctx.fillStyle = '#D4AF37';
+      ctx.font = 'bold 48px Helvetica';
+      ctx.fillText(`RANK ${rank}`, centerX, 820);
+      
+      // Attributes
+      const attrs = calculateAttributes();
+      const attrList = [
+        { name: 'FORZA', value: attrs.strength, icon: '🏋️' },
+        { name: 'POTENZA', value: attrs.power, icon: '⚡' },
+        { name: 'VELOCITÀ', value: attrs.speed, icon: '🏃' },
+        { name: 'RESISTENZA', value: attrs.endurance, icon: '🫀' },
+      ];
+      
+      let y = 950;
+      attrList.forEach(attr => {
+        // Background bar
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        roundRect(ctx, 120, y, w - 240, 70, 12);
+        ctx.fill();
+        
+        // Progress bar
+        ctx.fillStyle = '#D4AF37';
+        roundRect(ctx, 120, y, (w - 240) * (attr.value / 100), 70, 12);
+        ctx.fill();
+        
+        // Label
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 32px Helvetica';
+        ctx.textAlign = 'left';
+        ctx.fillText(`${attr.icon} ${attr.name}`, 150, y + 46);
+        
+        // Value
+        ctx.textAlign = 'right';
+        ctx.fillText(attr.value || '--', w - 150, y + 46);
+        
+        y += 100;
+      });
+      
+      // Stats
+      const p = appData.performance;
+      const total = (p.squat || 0) + (p.bench || 0) + (p.deadlift || 0);
+      const t5k = p.time5k?.min ? `${p.time5k.min}:${String(p.time5k.sec || 0).padStart(2, '0')}` : '--';
+      
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.font = '28px Helvetica';
+      ctx.fillText(`Total: ${total}kg  •  5K: ${t5k}  •  Jump: ${p.broadJump || '--'}cm`, w/2, 1480);
+      
+      // User name
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 36px Helvetica';
+      ctx.fillText(appData.userName.toUpperCase(), w/2, 1580);
+      
+      // Watermark / CTA
+      ctx.fillStyle = 'rgba(212, 175, 55, 0.6)';
+      ctx.font = '26px Helvetica';
+      ctx.fillText('Scopri il tuo Hybrid Score', w/2, 1750);
+      
+      // Convert to image and download
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'hybrid-warrior-story.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Story scaricata! Condividila su Instagram 📸');
+      }, 'image/png');
+    }
+    
+    // Helper function for rounded rectangles
+    function roundRect(ctx, x, y, width, height, radius) {
+      ctx.beginPath();
+      ctx.moveTo(x + radius, y);
+      ctx.lineTo(x + width - radius, y);
+      ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+      ctx.lineTo(x + width, y + height - radius);
+      ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      ctx.lineTo(x + radius, y + height);
+      ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+      ctx.lineTo(x, y + radius);
+      ctx.quadraticCurveTo(x, y, x + radius, y);
+      ctx.closePath();
+    }
+    
+    // Modal functions
+    function openModal(id, param) {
+      document.getElementById(id).classList.add('active');
+      
+      if (id === 'calcModal') {
+        document.getElementById('calcWeight').value = '';
+        document.getElementById('calcReps').value = '';
+        document.getElementById('calcResult').style.display = 'none';
+        calculated1RM = 0;
+      }
+      
+      if (id === 'statsModal') {
+        document.getElementById('inputSessions').value = appData.stats.sessions || '';
+        document.getElementById('inputDistance').value = appData.stats.distance || '';
+        document.getElementById('inputHR').value = appData.stats.hr || '';
+        document.getElementById('inputHRV').value = appData.stats.hrv || '';
+      }
+      
+      if (id === 'settingsModal') {
+        document.getElementById('inputUserName').value = appData.userName;
+        document.getElementById('inputBodyweight').value = appData.bodyweight || '';
+      }
+      
+      if (id === 'exerciseModal') {
+        const names = { squat: 'Squat', bench: 'Panca Piana', deadlift: 'Stacco' };
+        document.getElementById('exerciseModalTitle').textContent = `Inserisci 1RM ${names[param]}`;
+        document.getElementById('exerciseType').value = param;
+        document.getElementById('exercise1rm').value = appData.performance[param] || '';
+      }
+      
+      if (id === 'runModal') {
+        const names = { '5k': '5 Km', '10k': '10 Km' };
+        const key = `time${param}`;
+        document.getElementById('runModalTitle').textContent = `Tempo ${names[param]}`;
+        document.getElementById('runType').value = param;
+        document.getElementById('runMinutes').value = appData.performance[key]?.min || '';
+        document.getElementById('runSeconds').value = appData.performance[key]?.sec || '';
+      }
+      
+      if (id === 'jumpModal') {
+        document.getElementById('broadJump').value = appData.performance.broadJump || '';
+      }
+      
+      if (id === 'goalModal' && !param) {
+        document.getElementById('goalModalTitle').textContent = 'Nuovo Obiettivo';
+        document.getElementById('goalId').value = '';
+        document.getElementById('goalType').value = 'strength';
+        document.getElementById('goalName').value = '';
+        document.getElementById('goalCurrent').value = '';
+        document.getElementById('goalTarget').value = '';
+        document.getElementById('goalUnit').value = 'kg';
+        document.getElementById('deleteGoalBtn').style.display = 'none';
+        updateGoalFields();
+      }
+    }
+    
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('active');
+      setTimeout(() => toast.classList.remove('active'), 2500);
+    }
+    
+    function updateGoalFields() {
+      const type = document.getElementById('goalType').value;
+      const unitField = document.getElementById('goalUnitField');
+      const currentHint = document.getElementById('goalCurrentHint');
+      const targetHint = document.getElementById('goalTargetHint');
+      
+      if (type === 'running') {
+        document.getElementById('goalCurrentLabel').textContent = 'Tempo Attuale';
+        document.getElementById('goalTargetLabel').textContent = 'Tempo Obiettivo';
+        document.getElementById('goalCurrent').placeholder = 'Es. 24:30';
+        document.getElementById('goalTarget').placeholder = 'Es. 22:00';
+        currentHint.textContent = 'Formato: minuti:secondi';
+        targetHint.textContent = 'Il tempo che vuoi raggiungere';
+        document.getElementById('goalUnit').value = 'min';
+        unitField.style.display = 'none';
+      } else if (type === 'strength') {
+        document.getElementById('goalCurrentLabel').textContent = 'Valore Attuale';
+        document.getElementById('goalTargetLabel').textContent = 'Obiettivo';
+        document.getElementById('goalCurrent').placeholder = 'Es. 130';
+        document.getElementById('goalTarget').placeholder = 'Es. 150';
+        currentHint.textContent = 'Il tuo massimale attuale';
+        targetHint.textContent = 'Il peso che vuoi raggiungere';
+        document.getElementById('goalUnit').value = 'kg';
+        unitField.style.display = 'none';
+      } else {
+        document.getElementById('goalCurrentLabel').textContent = 'Valore Attuale';
+        document.getElementById('goalTargetLabel').textContent = 'Obiettivo';
+        document.getElementById('goalCurrent').placeholder = 'Valore attuale';
+        document.getElementById('goalTarget').placeholder = 'Valore obiettivo';
+        currentHint.textContent = '';
+        targetHint.textContent = '';
+        unitField.style.display = 'block';
+      }
+    }
+    
+    // Save functions
+    function saveStats() {
+      appData.stats = {
+        sessions: parseInt(document.getElementById('inputSessions').value) || 0,
+        distance: parseInt(document.getElementById('inputDistance').value) || 0,
+        hr: parseInt(document.getElementById('inputHR').value) || 0,
+        hrv: parseInt(document.getElementById('inputHRV').value) || 0
+      };
+      saveData();
+      renderStats();
+      renderHybridScore();
+      closeModal('statsModal');
+      showToast('Salvato!');
+    }
+    
+    function saveExercise() {
+      const type = document.getElementById('exerciseType').value;
+      const value = parseFloat(document.getElementById('exercise1rm').value) || 0;
+      
+      if (value < 0 || value > 500) {
+        showToast('Inserisci un valore valido (0-500 kg)');
+        return;
+      }
+      
+      appData.performance[type] = value;
+      saveData();
+      renderTrainingPage();
+      renderHybridScore();
+      renderSummary();
+      closeModal('exerciseModal');
+      showToast('Salvato!');
+    }
+    
+    function saveRunTime() {
+      const type = document.getElementById('runType').value;
+      const min = parseInt(document.getElementById('runMinutes').value) || 0;
+      const sec = parseInt(document.getElementById('runSeconds').value) || 0;
+      
+      if (min < 0 || min > 120 || sec < 0 || sec > 59) {
+        showToast('Inserisci un tempo valido');
+        return;
+      }
+      
+      const key = `time${type}`;
+      appData.performance[key] = { min, sec };
+      saveData();
+      renderTrainingPage();
+      renderHybridScore();
+      renderSummary();
+      closeModal('runModal');
+      showToast('Salvato!');
+    }
+    
+    function saveBroadJump() {
+      const value = parseInt(document.getElementById('broadJump').value) || 0;
+      
+      if (value < 0 || value > 400) {
+        showToast('Inserisci un valore valido (0-400 cm)');
+        return;
+      }
+      
+      appData.performance.broadJump = value;
+      saveData();
+      renderTrainingPage();
+      renderHybridScore();
+      closeModal('jumpModal');
+      showToast('Salvato!');
+    }
+    
+    function saveSettings() {
+      const name = document.getElementById('inputUserName').value.trim();
+      const bw = parseFloat(document.getElementById('inputBodyweight').value);
+      
+      if (!name) {
+        showToast('Inserisci il tuo nome');
+        return;
+      }
+      
+      if (bw && (bw < 30 || bw > 200)) {
+        showToast('Peso non valido (30-200 kg)');
+        return;
+      }
+      
+      appData.userName = name;
+      appData.bodyweight = bw || 80;
+      saveData();
+      renderUserName();
+      renderHybridScore();
+      renderSummary();
+      closeModal('settingsModal');
+      showToast('Salvato!');
+    }
+    
+    // Goal functions
+    function editGoal(id) {
+      const goal = appData.goals.find(g => g.id === id);
+      if (!goal) return;
+      
+      document.getElementById('goalModalTitle').textContent = 'Modifica Obiettivo';
+      document.getElementById('goalId').value = id;
+      document.getElementById('goalType').value = goal.type || 'other';
+      document.getElementById('goalName').value = goal.name;
+      document.getElementById('goalCurrent').value = goal.current;
+      document.getElementById('goalTarget').value = goal.target;
+      document.getElementById('goalUnit').value = goal.unit;
+      document.getElementById('deleteGoalBtn').style.display = 'block';
+      updateGoalFields();
+      openModal('goalModal', true);
+    }
+    
+    function saveGoal() {
+      const id = document.getElementById('goalId').value;
+      const name = document.getElementById('goalName').value.trim();
+      const current = document.getElementById('goalCurrent').value.trim();
+      const target = document.getElementById('goalTarget').value.trim();
+      
+      if (!name) {
+        showToast('Inserisci un nome per l\'obiettivo');
+        return;
+      }
+      
+      if (!current || !target) {
+        showToast('Inserisci valore attuale e obiettivo');
+        return;
+      }
+      
+      const type = document.getElementById('goalType').value;
+      const goal = {
+        id: id ? parseInt(id) : Date.now(),
+        name,
+        type,
+        current,
+        target,
+        unit: type === 'strength' ? 'kg' : type === 'running' ? 'min' : document.getElementById('goalUnit').value
+      };
+      
+      if (id) {
+        const index = appData.goals.findIndex(g => g.id === parseInt(id));
+        appData.goals[index] = goal;
+      } else {
+        appData.goals.push(goal);
+      }
+      
+      saveData();
+      renderGoals();
+      closeModal('goalModal');
+      showToast('Obiettivo salvato!');
+    }
+    
+    function deleteGoal() {
+      const id = parseInt(document.getElementById('goalId').value);
+      appData.goals = appData.goals.filter(g => g.id !== id);
+      saveData();
+      renderGoals();
+      closeModal('goalModal');
+      showToast('Obiettivo eliminato');
+    }
+    
+    function resetData() {
+      if (confirm('Vuoi davvero cancellare tutti i dati e ricominciare?')) {
+        appData = JSON.parse(JSON.stringify(defaultData));
+        saveData();
+        renderAll();
+        closeModal('settingsModal');
+        showToast('App resettata');
+      }
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', init);
+    window.addEventListener('resize', () => {
+      if (document.getElementById('page-stats').classList.contains('active')) {
+        renderRadarChart();
+      }
+    });
+  </script>
+</body>
+</html>
